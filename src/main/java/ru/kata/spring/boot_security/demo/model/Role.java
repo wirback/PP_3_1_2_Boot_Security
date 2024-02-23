@@ -10,7 +10,7 @@ import java.util.Set;
 public class Role implements GrantedAuthority {
     @Id
     private Long id;
-    private String name;
+    private String username;
     @Transient
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
@@ -20,35 +20,32 @@ public class Role implements GrantedAuthority {
 
     public Role(Long id, String name) {
         this.id = id;
-        this.name = name;
+        this.username = name;
     }
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public Set<User> getUsers() {
         return users;
     }
-
     public void setUsers(Set<User> users) {
         this.users = users;
     }
 
     @Override
     public String getAuthority() {
-        return getName();
+        return getUsername();
     }
 }
