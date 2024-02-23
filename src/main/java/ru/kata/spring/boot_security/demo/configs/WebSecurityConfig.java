@@ -38,28 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     // аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-////        UserDetails user = User.withDefaultPasswordEncoder()
-//        UserDetails user = User.builder()
-//                .username("user")
-//                .password("{bcrypt}$2a$12$LbltxL6UlkO9jIuz8FrP1.Sba0C4awN1TENNE6OprKSE03rAj.E3q")
-//                .roles("USER")
-//                .build();
-//
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//                .password("{bcrypt}$2a$12$LbltxL6UlkO9jIuz8FrP1.Sba0C4awN1TENNE6OprKSE03rAj.E3q")
-//                .roles("ADMIN", "USER")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
-
-    // аутентификация jdbc
-//    @Bean
-    public JdbcUserDetailsManager userDetailsManager(DataSource dataSource) {
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+//        UserDetails user = User.withDefaultPasswordEncoder()
         UserDetails user = User.builder()
                 .username("user")
                 .password("{bcrypt}$2a$12$LbltxL6UlkO9jIuz8FrP1.Sba0C4awN1TENNE6OprKSE03rAj.E3q")
@@ -72,10 +54,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("ADMIN", "USER")
                 .build();
 
-        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.createUser(user);
-        userDetailsManager.createUser(admin);
-
-        return userDetailsManager;
+        return new InMemoryUserDetailsManager(user, admin);
     }
+
+    // аутентификация jdbc
+//    @Bean
+//    public JdbcUserDetailsManager userDetailsManager(DataSource dataSource) {
+//        UserDetails user = User.builder()
+//                .username("user")
+//                .password("{bcrypt}$2a$12$LbltxL6UlkO9jIuz8FrP1.Sba0C4awN1TENNE6OprKSE03rAj.E3q")
+//                .roles("USER")
+//                .build();
+//
+//        UserDetails admin = User.builder()
+//                .username("admin")
+//                .password("{bcrypt}$2a$12$LbltxL6UlkO9jIuz8FrP1.Sba0C4awN1TENNE6OprKSE03rAj.E3q")
+//                .roles("ADMIN", "USER")
+//                .build();
+//
+//        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
+//        userDetailsManager.createUser(user);
+//        userDetailsManager.createUser(admin);
+//
+//        return userDetailsManager;
+//    }
 }
