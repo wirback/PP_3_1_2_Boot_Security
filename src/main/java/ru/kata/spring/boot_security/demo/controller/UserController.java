@@ -18,9 +18,16 @@ public class UserController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping()
+    public String getAllUsers(Model model) {
+        model.addAttribute("users", userService.findAll());
+
+        return "users/usersList";
+    }
+
+    @GetMapping("/show")
     public String show(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.findById(id));
-        return "user/user";
+        return "users/showUser";
     }
 }

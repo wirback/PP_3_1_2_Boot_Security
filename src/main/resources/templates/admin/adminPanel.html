@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+</head>
+<body>
+
+<table> <!--таблица-->
+    <caption>All Users</caption> <!--заголовок таблицы-->
+    <thead> <!--Группирует содержимое заголовка в таблице-->
+        <tr> <!--строка-->
+            <th>ID</th> <!--ячейка заголовка-->
+            <th>First Name</th> <!--ячейка заголовка-->
+            <th>Last Name</th> <!--ячейка заголовка-->
+            <th>Age</th> <!--ячейка заголовка-->
+            <th>Email</th> <!--ячейка заголовка-->
+            <th>Edit</th> <!--ячейка заголовка-->
+            <th>Delete</th> <!--ячейка заголовка-->
+        </tr>
+    </thead>
+    <tbody> <!--Группирует основное содержимое в таблице-->
+        <tr th:each="user : ${users}"> <!--строка-->
+            <td th:text="${user.getId()}">ID</td> <!--ячейка-->
+            <td th:text="${user.getFirstName()}">First Name</td> <!--ячейка-->
+            <td th:text="${user.getLastName()}">Last Name</td> <!--ячейка-->
+            <td th:text="${user.getAge()}">Age</td> <!--ячейка-->
+            <td th:text="${user.getUsername()}">Email</td> <!--ячейка-->
+            <td>
+                <a th:href="@{/admin/edit(id=${user.getId()})}" style="background: beige">_Edit_</a>
+            </td> <!--ячейка-->
+            <td>
+                <a th:href="@{/admin/delete(id=${user.getId()})}" style="background: tomato">_Delete_</a>
+            </td> <!--ячейка-->
+        </tr>
+    </tbody>
+</table>
+
+<br>
+<hr>
+
+<a href="/admin/new">
+    <input type="submit" value="Add new User">
+</a>
+
+</body>
+</html>

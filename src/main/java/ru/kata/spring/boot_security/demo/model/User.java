@@ -1,36 +1,45 @@
 package ru.kata.spring.boot_security.demo.model;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "table_users")
-public class User implements UserDetails {
+//public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String email;
     private String firstName;
     private String lastName;
-    private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private Integer age;
+    @Column(name = "email")
+    private String username;
+//    private String password;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "user_role",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id")
+//    )
+//    private Set<Role> roles;
 
 
     public User() {
     }
 
-    public User(String email, String firstName, String lastName, String password, Set<Role> roles) {
-        this.email = email;
+    public User(String firstName, String lastName, Integer age, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
-        this.roles = roles;
+        this.age = age;
+        this.username = username;
+//        this.password = password;
     }
+
 
     public Long getId() {
         return id;
@@ -38,16 +47,6 @@ public class User implements UserDetails {
     public void setId(Long id) {
         this.id = id;
     }
-
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-    public void setUsername(String username) {
-        this.email = username;
-    }
-
 
     public String getFirstName() {
         return firstName;
@@ -63,41 +62,56 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    @Override
-    public String getPassword() {
-        return password;
+    public Integer getAge() {
+        return age;
     }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+    //    @Override
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
     }
 
+//    @Override
+//    public String getPassword() {
+//        return password;
+//    }
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+//    public Set<Role> getRoles() {
+//        return roles;
+//    }
+//    public void setRoles(Set<Role> roles) {
+//        this.roles = roles;
+//    }
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return getRoles();
+//    }
+//
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 }

@@ -12,21 +12,29 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 public class AdminController {
     private final UserService userService;
 
+
     @Autowired
     public AdminController(UserService userService) {
         this.userService = userService;
     }
 
 
-    @GetMapping("/")
+    @GetMapping()
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
-        return "admin/admin_show_users";
+
+        return "admin/adminPanel";
+    }
+
+    @GetMapping("/edit")
+    public String edit(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("user", userService.findById(id));
+        return "admin/editUser";
     }
 
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user) {
-        return "admin/admin_new";
+        return "admin/newUser";
     }
 
     @PostMapping()
