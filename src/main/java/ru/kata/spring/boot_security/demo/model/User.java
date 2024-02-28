@@ -4,8 +4,7 @@ package ru.kata.spring.boot_security.demo.model;
 //import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 //public class User implements UserDetails {
@@ -18,28 +17,36 @@ public class User {
     private Integer age;
     @Column(name = "email")
     private String username;
-//    private String password;
+    private String password;
 //    @ManyToMany(fetch = FetchType.EAGER)
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "user_role",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id")
-//    )
-//    private Set<Role> roles;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
 
     public User() {
     }
 
-    public User(String firstName, String lastName, Integer age, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.username = username;
-//        this.password = password;
-    }
+//    public User(String firstName, String lastName, Integer age, String email, String password) {
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.age = age;
+//        this.email = email;
+////        this.password = password;
+//    }
 
+
+    public void addRoleToUser(Role role) {
+        if (roles == null) {
+            roles = new HashSet<>();
+        }
+        roles.add(role);
+    }
 
     public Long getId() {
         return id;
@@ -78,19 +85,19 @@ public class User {
     }
 
 //    @Override
-//    public String getPassword() {
-//        return password;
-//    }
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-//    public Set<Role> getRoles() {
-//        return roles;
-//    }
-//    public void setRoles(Set<Role> roles) {
-//        this.roles = roles;
-//    }
+    public Set<Role> getRoles() {
+        return roles;
+    }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {

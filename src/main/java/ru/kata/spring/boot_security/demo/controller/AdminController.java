@@ -5,23 +5,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
+    private final RoleService roleService;
 
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
 
     @GetMapping()
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("roles", roleService.findAll());
 
         return "admin/adminPanel";
     }
@@ -29,6 +33,7 @@ public class AdminController {
     @GetMapping("/edit")
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.findById(id));
+
         return "admin/editUser";
     }
 
@@ -40,18 +45,21 @@ public class AdminController {
     @PostMapping()
     public String create(@ModelAttribute("user") User user) {
         userService.save(user);
+
         return "redirect:/admin";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute("user") User user) {
         userService.save(user);
+
         return "redirect:/admin";
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam("id") Long id) {
         userService.deleteById(id);
+
         return "redirect:/admin";
     }
 }
