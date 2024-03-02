@@ -8,17 +8,10 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RegistrationService;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
 
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/authorization")
 public class AuthorizationController {
-//    // вызов кастомной формы авторизации
-//    @GetMapping("/login")
-//    public String loginPage() {
-//        return "authorization/login";
-//    }
-
     private final RegistrationService registrationService;
     private final UserValidator userValidator;
 
@@ -28,6 +21,11 @@ public class AuthorizationController {
         this.userValidator = userValidator;
     }
 
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "authorization/login";
+    }
 
     @GetMapping("/registration")
     public String registrationPage(@ModelAttribute("user")User user) {

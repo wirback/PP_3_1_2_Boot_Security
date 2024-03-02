@@ -20,7 +20,7 @@
 
 <hr>
 
-<a href="/login">
+<a href="/authorization/login">
     <input type="submit" value="Log in">
 </a>
 <br><br><br>
@@ -29,6 +29,11 @@
 </a>
 
 <hr>
+
+<br><br>
+<form th:action="@{/authorization/logout}" th:method="POST">
+    <input type="submit" value="Logout">
+</form>
 
 </body>
 </html>

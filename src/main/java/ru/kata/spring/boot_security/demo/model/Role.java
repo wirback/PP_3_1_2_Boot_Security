@@ -1,24 +1,20 @@
 package ru.kata.spring.boot_security.demo.model;
 
-//import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-//@Table(name = "t_role")
-//public class Role implements GrantedAuthority {
-public class Role {
+public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-//    @Transient
-//    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    @ManyToMany(cascade = CascadeType.ALL)
+    @Transient
+    @ManyToMany
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "role_id"),
@@ -29,17 +25,9 @@ public class Role {
     public Role() {
     }
 
-//    public Role(Long id, String name) {
-//        this.id = id;
-//        this.name = name;
-//    }
-
-
-    public void addUserToRole(User user) {
-        if (users == null) {
-            users = new HashSet<>();
-        }
-        users.add(user);
+    public Role(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Long getId() {
@@ -63,8 +51,8 @@ public class Role {
         this.users = users;
     }
 
-//    @Override
-//    public String getAuthority() {
-//        return getUsername();
-//    }
+    @Override
+    public String getAuthority() {
+        return name;
+    }
 }

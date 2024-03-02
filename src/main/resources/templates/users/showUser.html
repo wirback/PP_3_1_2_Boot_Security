@@ -9,7 +9,7 @@
 <br>
 
 <table> <!--таблица-->
-    <caption>All Users</caption> <!--заголовок таблицы-->
+    <caption>User</caption> <!--заголовок таблицы-->
     <thead> <!--Группирует содержимое заголовка в таблице-->
     <tr> <!--строка-->
         <th>ID</th> <!--ячейка заголовка-->
@@ -17,8 +17,7 @@
         <th>Last Name</th> <!--ячейка заголовка-->
         <th>Age</th> <!--ячейка заголовка-->
         <th>Email</th> <!--ячейка заголовка-->
-        <th>Edit</th> <!--ячейка заголовка-->
-        <th>Delete</th> <!--ячейка заголовка-->
+        <th>Role</th> <!--ячейка заголовка-->
     </tr>
     </thead>
     <tbody> <!--Группирует основное содержимое в таблице-->
@@ -28,6 +27,12 @@
         <td th:text="*{getLastName()}">Last Name</td> <!--ячейка-->
         <td th:text="*{getAge()}">Age</td> <!--ячейка-->
         <td th:text="*{getUsername()}">Email</td> <!--ячейка-->
+        <td>
+            <div th:each="role : ${user.getRoles()}">
+<!--                <a th:text="${role.getName()}" style="">role</a>-->
+                <a th:text="${#strings.replace(role.getName(),'ROLE_','')}" style="">role</a>
+            </div>
+        </td> <!--ячейка-->
     </tr>
     </tbody>
 </table>

@@ -33,12 +33,14 @@ public class AdminController {
     @GetMapping("/edit")
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.findById(id));
+        model.addAttribute("roles", roleService.findAll());
 
         return "admin/editUser";
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
+    public String newUser(@ModelAttribute("user") User user, Model model) {
+        model.addAttribute("roles", roleService.findAll());
         return "admin/newUser";
     }
 

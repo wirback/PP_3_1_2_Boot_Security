@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -17,17 +19,9 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @GetMapping()
-    public String getAllUsers(Model model) {
-        model.addAttribute("users", userService.findAll());
-
-        return "users/usersList";
-    }
-
-    @GetMapping("/show")
-    public String show(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", userService.findById(id));
+    public String show(Model model, Principal principal) {
+        model.addAttribute("user", userService.findByUsername(principal.getName()));
         return "users/showUser";
     }
 }

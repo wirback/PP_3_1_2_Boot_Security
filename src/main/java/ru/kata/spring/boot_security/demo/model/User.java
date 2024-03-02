@@ -1,14 +1,14 @@
 package ru.kata.spring.boot_security.demo.model;
 
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
 
+
 @Entity
-//public class User implements UserDetails {
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,9 +18,7 @@ public class User {
     @Column(name = "email")
     private String username;
     private String password;
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -32,21 +30,6 @@ public class User {
     public User() {
     }
 
-//    public User(String firstName, String lastName, Integer age, String email, String password) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.age = age;
-//        this.email = email;
-////        this.password = password;
-//    }
-
-
-    public void addRoleToUser(Role role) {
-        if (roles == null) {
-            roles = new HashSet<>();
-        }
-        roles.add(role);
-    }
 
     public Long getId() {
         return id;
@@ -76,7 +59,6 @@ public class User {
         this.age = age;
     }
 
-    //    @Override
     public String getUsername() {
         return username;
     }
@@ -84,7 +66,6 @@ public class User {
         this.username = username;
     }
 
-//    @Override
     public String getPassword() {
         return password;
     }
@@ -99,26 +80,28 @@ public class User {
         this.roles = roles;
     }
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return getRoles();
-//    }
-//
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//    @Override
-//    public boolean isEnabled() {
-//        return true;
-//    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.getRoles();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

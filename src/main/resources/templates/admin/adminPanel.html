@@ -15,6 +15,7 @@
             <th>Last Name</th> <!--ячейка заголовка-->
             <th>Age</th> <!--ячейка заголовка-->
             <th>Email</th> <!--ячейка заголовка-->
+            <th>Role</th> <!--ячейка заголовка-->
             <th>Edit</th> <!--ячейка заголовка-->
             <th>Delete</th> <!--ячейка заголовка-->
         </tr>
@@ -26,6 +27,11 @@
             <td th:text="${user.getLastName()}">Last Name</td> <!--ячейка-->
             <td th:text="${user.getAge()}">Age</td> <!--ячейка-->
             <td th:text="${user.getUsername()}">Email</td> <!--ячейка-->
+            <td>
+                <div th:each="role : ${user.getRoles()}">
+                    <a th:text="${#strings.replace(role.getName(),'ROLE_','')}" style="display: inline">role</a>
+                </div>
+            </td> <!--ячейка-->
             <td>
                 <a th:href="@{/admin/edit(id=${user.getId()})}" style="background: beige">_Edit_</a>
             </td> <!--ячейка-->
