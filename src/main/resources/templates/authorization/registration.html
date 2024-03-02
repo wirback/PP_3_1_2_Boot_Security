@@ -8,12 +8,12 @@
 
 <form th:method="POST" th:action="@{/authorization/registration}" th:object="${user}">
     <label for="username">Логин(email):
-        <input id="username" type="text" th:field="*{username}" placeholder="enter your email as a login">
+        <input id="username" type="email" th:field="*{username}" placeholder="enter your email as a login">
     </label>
     <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Login Error</div>
     <br/>
     <label for="password">Пароль:
-        <input id="password" type="text" th:field="*{password}" placeholder="come up with a password">
+        <input id="password" type="password" th:field="*{password}" placeholder="come up with a password">
     </label>
     <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
     <br/>

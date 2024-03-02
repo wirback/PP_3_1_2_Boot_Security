@@ -8,7 +8,7 @@
 
 <form th:method="POST" th:action="@{/admin}" th:object="${user}">
     <label for="username">Логин(email):
-        <input id="username" type="text" th:field="*{username}" placeholder="enter your email as a login">
+        <input id="username" type="email" th:field="*{username}" placeholder="enter your email as a login">
     </label>
     <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Login Error</div>
     <br/>

@@ -29,13 +29,14 @@
 
 
 <form th:method="POST" th:action="@{/admin/update}" th:object="${user}">
+    <input id="id" type="hidden" th:field="*{id}">
     <label for="username">Логин(email):
-        <input id="username" type="text" th:field="*{username}" placeholder="enter your email as a login">
+        <input id="username" type="email" th:field="*{username}">
     </label>
     <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Login Error</div>
     <br/>
     <label for="password">Пароль:
-        <input id="password" type="text" th:field="*{password}" placeholder="come up with a password">
+        <input id="password" type="hidden" th:field="*{password}">
     </label>
     <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
 
@@ -54,13 +55,13 @@
     <hr>
     <a>Персональная информация</a> <br>
     <label for="firstname">Имя:
-        <input id="firstname" type="text" th:field="*{firstName}" placeholder="enter the user first name">
+        <input id="firstname" type="text" th:field="*{firstName}">
     </label> <br>
     <label for="lastname">Фамилия:
-        <input id="lastname" type="text" th:field="*{lastName}" placeholder="enter the user's last name">
+        <input id="lastname" type="text" th:field="*{lastName}">
     </label> <br>
     <label for="age">Возраст:
-        <input id="age" type="text" th:field="*{age}" placeholder="enter the user's age">
+        <input id="age" type="text" th:field="*{age}">
     </label> <br>
     <br/>
     <hr>
