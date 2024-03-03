@@ -6,19 +6,21 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/admin}" th:object="${user}">
-    <label for="username">Логин(email):
-        <input id="username" type="email" th:field="*{username}" placeholder="enter your email as a login">
-    </label>
-    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Login Error</div>
-    <br/>
-    <label for="password">Пароль:
-        <input id="password" type="text" th:field="*{password}" placeholder="come up with a password">
-    </label>
-    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+<form name="f" th:method="POST" th:action="@{/admin}" th:object="${user}" style="display: table">
+    <p style="display: table-row">
+        <label for="username" style="display: table-cell">Логин(email):</label>
+        <input id="username" type="email" th:field="*{username}" placeholder="введите email">
+        <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Login Error</div>
+    </p>
 
-    <p>
-        <label>Roles:
+    <p style="display: table-row">
+        <label for="password" style="display: table-cell">Пароль:</label>
+        <input id="password" type="text" th:field="*{password}" placeholder="придумайте пароль">
+        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+    </p>
+
+    <p style="display: table-row">
+        <label style="display: table-cell">Roles:
             <input type="checkbox" name="roles"
                    th:each="role : ${roles}"
                    th:text="${#strings.replace(role.getName(),'ROLE_','')}"
@@ -31,16 +33,22 @@
     <br/>
     <hr>
     <a>Персональная информация</a> <br>
-    <label for="firstname">Имя:
-        <input id="firstname" type="text" th:field="*{firstName}" placeholder="enter the user first name">
-    </label> <br>
-    <label for="lastname">Фамилия:
-        <input id="lastname" type="text" th:field="*{lastName}" placeholder="enter the user's last name">
-    </label> <br>
-    <label for="age">Возраст:
-        <input id="age" type="text" th:field="*{age}" placeholder="enter the user's age">
-    </label> <br>
-    <br/>
+
+    <p style="display: table-row">
+        <label for="firstname" style="display: table-cell">Имя:</label>
+        <input id="firstname" type="text" th:field="*{firstName}" placeholder="добавьте имя">
+    </p> <br>
+
+    <p style="display: table-row">
+        <label for="lastname" style="display: table-cell">Фамилия:</label>
+        <input id="lastname" type="text" th:field="*{lastName}" placeholder="добавьте фамилию">
+    </p> <br>
+
+    <p style="display: table-row">
+        <label for="age" style="display: table-cell">Возраст:</label>
+        <input id="age" type="text" th:field="*{age}" placeholder="добавьте возраст">
+    </p> <br>
+
     <hr>
     <input type="submit" value="Создать">
 </form>

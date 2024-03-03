@@ -29,7 +29,6 @@
         <td th:text="*{getUsername()}">Email</td> <!--ячейка-->
         <td>
             <div th:each="role : ${user.getRoles()}">
-<!--                <a th:text="${role.getName()}" style="">role</a>-->
                 <a th:text="${#strings.replace(role.getName(),'ROLE_','')}" style="">role</a>
             </div>
         </td> <!--ячейка-->

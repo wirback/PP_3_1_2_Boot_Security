@@ -8,40 +8,22 @@
 
 <br>
 
-<!--<form th:method="POST" th:action="@{/admin/update}" th:object="${user}">-->
-<!--    <input id="id" type="hidden" th:field="*{id}">-->
-<!--    <label for="firstname">First Name:-->
-<!--        <input id="firstname" type="text" th:field="*{firstName}" th:value="${user.getFirstName()}">-->
-<!--    </label> <br>-->
-<!--    <label for="lastname">Last Name:-->
-<!--        <input id="lastname" type="text" th:field="*{lastName}" th:value="${user.getLastName()}">-->
-<!--    </label> <br>-->
-<!--    <label for="age">Age:-->
-<!--        <input id="age" type="text" th:field="*{age}" th:value="${user.getAge()}">-->
-<!--    </label> <br>-->
-<!--    <label for="email">Email:-->
-<!--        <input id="email" type="text" th:field="*{username}" th:value="${user.getUsername()}">-->
-<!--    </label> <br>-->
-<!--    <hr>-->
-<!--    <input type="submit" value="Update">-->
-<!--</form>-->
-<!--<br>-->
-
-
-<form th:method="POST" th:action="@{/admin/update}" th:object="${user}">
+<form name="f" th:method="POST" th:action="@{/admin/update}" th:object="${user}" style="display: table">
     <input id="id" type="hidden" th:field="*{id}">
-    <label for="username">Логин(email):
+    <p style="display: table-row">
+        <label for="username" style="display: table-cell">Логин(email):</label>
         <input id="username" type="email" th:field="*{username}">
-    </label>
-    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Login Error</div>
-    <br/>
-    <label for="password">Пароль:
-        <input id="password" type="hidden" th:field="*{password}">
-    </label>
-    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+        <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Login Error</div>
+    </p> <br/>
 
-    <p>
-        <label>Roles:
+<!--    <p style="display: table-row">-->
+<!--        <label for="password" style="display: table-cell"></label>-->
+<!--        <input id="password" type="hidden" th:field="*{password}">-->
+<!--        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>-->
+<!--    </p>-->
+
+    <p style="display: table-row">
+        <label style="display: table-cell">Roles:
             <input type="checkbox" name="roles"
                    th:each="role : ${roles}"
                    th:text="${#strings.replace(role.getName(),'ROLE_','')}"
@@ -52,20 +34,27 @@
     </p>
 
     <br/>
+
     <hr>
     <a>Персональная информация</a> <br>
-    <label for="firstname">Имя:
+
+    <p style="display: table-row">
+        <label for="firstname" style="display: table-cell">Имя:</label>
         <input id="firstname" type="text" th:field="*{firstName}">
-    </label> <br>
-    <label for="lastname">Фамилия:
+    </p> <br>
+
+    <p style="display: table-row">
+        <label for="lastname" style="display: table-cell">Фамилия:</label>
         <input id="lastname" type="text" th:field="*{lastName}">
-    </label> <br>
-    <label for="age">Возраст:
-        <input id="age" type="text" th:field="*{age}">
-    </label> <br>
-    <br/>
+    </p> <br>
+
+    <p style="display: table-row">
+        <label for="age" style="display: table-cell">Возраст:</label>
+        <input id="age" type="text" th:field="*{age}" style="display: table-cell">
+    </p> <br>
+
     <hr>
-    <input type="submit" value="Создать">
+    <input type="submit" value="Сохранить изменения">
 </form>
 
 
