@@ -6,9 +6,19 @@
 </head>
 <body>
 
-<table> <!--таблица-->
-    <caption>All Users</caption> <!--заголовок таблицы-->
-    <thead> <!--Группирует содержимое заголовка в таблице-->
+<div class="container">
+<!--    <ul class="nav nav-tabs">-->
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link active" href="#">Активная</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link" href="#">Ссылка</a>-->
+<!--        </li>-->
+<!--    </ul>-->
+
+    <table> <!--таблица-->
+        <caption>All Users</caption> <!--заголовок таблицы-->
+        <thead> <!--Группирует содержимое заголовка в таблице-->
         <tr> <!--строка-->
             <th>ID</th> <!--ячейка заголовка-->
             <th>First Name</th> <!--ячейка заголовка-->
@@ -19,8 +29,8 @@
             <th>Edit</th> <!--ячейка заголовка-->
             <th>Delete</th> <!--ячейка заголовка-->
         </tr>
-    </thead>
-    <tbody> <!--Группирует основное содержимое в таблице-->
+        </thead>
+        <tbody> <!--Группирует основное содержимое в таблице-->
         <tr th:each="user : ${users}"> <!--строка-->
             <td th:text="${user.getId()}">ID</td> <!--ячейка-->
             <td th:text="${user.getFirstName()}">First Name</td> <!--ячейка-->
@@ -39,15 +49,17 @@
                 <a th:href="@{/admin/delete(id=${user.getId()})}" style="background: tomato">_Delete_</a>
             </td> <!--ячейка-->
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<br>
-<hr>
+    <br>
+    <hr>
 
-<a href="/admin/new">
-    <input type="submit" value="Add new User">
-</a>
+    <a href="/admin/new">
+        <input type="submit" value="Add new User">
+    </a>
+</div>
+
 
 </body>
 </html>

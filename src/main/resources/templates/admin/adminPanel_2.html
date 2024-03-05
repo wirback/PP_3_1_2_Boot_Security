@@ -1,36 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-    <title>All Users</title>
 
+    <title>Привет, мир!</title>
 </head>
 <body>
+<!--<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">-->
+<!--<nav class="navbar navbar-dark sticky-top bg-dark"> &lt;!&ndash;flex-md-nowrap p-0 shadow">&ndash;&gt;-->
+<!--    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Company name</a>-->
+<!--    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+<!--&lt;!&ndash;    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">&ndash;&gt;-->
+<!--    <ul class="navbar-nav px-3">-->
+<!--        <li class="nav-item text-nowrap">-->
+<!--            <a class="nav-link" href="#">Sign out</a>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</nav>-->
 
-<div class="container">
+<nav class="navbar navbar-dark bg-dark" th:object="${authUser}">
+    <div class="navbar-brand">
+        <a th:text="*{username}" style="font-weight: bold"></a>
+        <a>with roles:</a>
+        <a th:each="role : ${authUser.roles}">
+            <th:block th:text="${#strings.replace(role.name,'ROLE_','')}"/>
+        </a>
+    </div>
 
-</div>
+    <form th:action="@{/authorization/logout}" th:method="POST">
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <input class="btn nav-link" type="submit" value="Sign out">
+            </li>
+        </ul>
+    </form>
 
-<hr>
+</nav>
 
-<a href="/authorization/login">
-    <input type="submit" value="Log in">
-</a>
-<br><br><br>
-<a href="/authorization/registration">
-    <input type="submit" value="Registration">
-</a>
-
-<hr>
-
-<br><br>
-<form th:action="@{/authorization/logout}" th:method="POST">
-    <input type="submit" value="Logout">
-</form>
 
 
 <!-- Дополнительный JavaScript; выберите один из двух! -->
