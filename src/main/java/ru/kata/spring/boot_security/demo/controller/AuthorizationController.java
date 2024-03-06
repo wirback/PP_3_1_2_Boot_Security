@@ -22,10 +22,10 @@ public class AuthorizationController {
     }
 
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "authorization/login";
-    }
+//    @GetMapping("/login")
+//    public String loginPage() {
+//        return "authorization/login";
+//    }
 
     @GetMapping("/registration")
     public String registrationPage(@ModelAttribute("user")User user) {
