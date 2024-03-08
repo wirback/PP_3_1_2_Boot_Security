@@ -38,18 +38,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // конфигурация авторизации
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/", "/authorization/**").permitAll()
+                .antMatchers("/", "/login", "/authorization/**").permitAll()
                 .antMatchers().hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
+//                .formLogin()
                 .formLogin().successHandler(successUserHandler)
 //                .loginPage("/authorization/login")
 //                .loginProcessingUrl("/authorization/login")
 //                .failureUrl("/authorization/login?error")
                 .and()
                 .logout()
-                .logoutUrl("/authorization/logout")
-                .logoutSuccessUrl("/authorization/login")
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
         ;
     }
 }

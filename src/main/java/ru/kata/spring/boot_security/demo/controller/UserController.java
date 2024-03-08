@@ -21,7 +21,8 @@ public class UserController {
 
     @GetMapping()
     public String show(Model model, Principal principal) {
-        model.addAttribute("user", userService.findByUsername(principal.getName()));
+        model.addAttribute("authUser", userService.findByUsername(principal.getName()));
+
         return "users/showUser";
     }
 }
