@@ -33,12 +33,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService).passwordEncoder(getPasswordEncoder());
     }
 
+    // TODO method for REST
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // конфигурация авторизации
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/", "/login", "/authorization/**").permitAll()
+//                .antMatchers("/", "/login", "/authorization/**").permitAll()
+                .antMatchers("/", "/login").permitAll()
                 .antMatchers().hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -53,4 +55,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
         ;
     }
+
+    // TODO method for CRUD
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        // конфигурация авторизации
+//        http.authorizeRequests()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/", "/login", "/authorization/**").permitAll()
+//                .antMatchers().hasAnyRole("USER", "ADMIN")
+//                .anyRequest().authenticated()
+//                .and()
+////                .formLogin()
+//                .formLogin().successHandler(successUserHandler)
+////                .loginPage("/authorization/login")
+////                .loginProcessingUrl("/authorization/login")
+////                .failureUrl("/authorization/login?error")
+//                .and()
+//                .logout()
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/")
+//        ;
+//    }
 }
