@@ -1,61 +1,65 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-// TODO controller admin class for CRUD
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.*;
-//import ru.kata.spring.boot_security.demo.model.User;
-//import ru.kata.spring.boot_security.demo.service.RoleService;
-//import ru.kata.spring.boot_security.demo.service.UserService;
-//
-//import java.security.Principal;
-//
-//@Controller
-//@RequestMapping("/admin")
-//public class AdminController {
-//    private final UserService userService;
-//    private final RoleService roleService;
-//    private final PasswordEncoder passwordEncoder;
-//
-//
-//    @Autowired
-//    public AdminController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
-//        this.userService = userService;
-//        this.roleService = roleService;
-//        this.passwordEncoder = passwordEncoder;
-//    }
-//
-//
-//    @GetMapping()
-//    public String getAllUsers(@ModelAttribute("user") User user, Model model, Principal principal) {
-//        model.addAttribute("users", userService.findAll());
-//        model.addAttribute("roles", roleService.findAll());
-//        model.addAttribute("authUser", userService.findByUsername(principal.getName()));
-//
-//        return "admin/adminPanel";
-//    }
-//
-//    @PostMapping()
-//    public String create(@ModelAttribute("user") User user) {
-//        userService.save(user);
-//
-//        return "redirect:/admin";
-//    }
-//
-//    @PostMapping("/update")
-//    public String update(@ModelAttribute("user") User user) {
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        userService.save(user);
-//
-//        return "redirect:/admin";
-//    }
-//
-//    @PostMapping("/delete")
-//    public String delete(@RequestParam("id") Long id) {
-//        userService.deleteById(id);
-//
-//        return "redirect:/admin";
-//    }
-//}
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.exception_handling.UserNotFoundDataJSON;
+import ru.kata.spring.boot_security.demo.exception_handling.UserNotFoundException;
+import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.UserService;
+
+import java.util.Optional;
+
+
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+    private static final String MESSAGE_USER_NOT_FOUND = "There is no user with ID = %s int database";
+    private final UserService userService;
+
+    @Autowired
+    public AdminController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping
+    public Iterable<User> getAllUsers() {
+        return userService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Long id) {
+        Optional<User> user = Optional.ofNullable(userService.findById(id));
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(String.format(MESSAGE_USER_NOT_FOUND, id));
+        }
+        return user.get();
+    }
+
+    @PostMapping
+    public User addNewUser(@RequestBody User user) {
+        userService.save(user);
+        return user;
+    }
+
+    @PutMapping
+    public User updateUser(@RequestBody User user) {
+        Optional<User> tmpUser = Optional.ofNullable(userService.findById(user.getId()));
+        if (tmpUser.isEmpty()) {
+            throw new  UserNotFoundException(String.format(MESSAGE_USER_NOT_FOUND, user.getId()));
+        }
+        userService.save(user);
+        return user;
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        Optional<User> user = Optional.ofNullable(userService.findById(id));
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(String.format(MESSAGE_USER_NOT_FOUND, id));
+        }
+        userService.deleteById(id);
+        return String.format("User with ID = %s was deleted.", id);
+    }
+}
