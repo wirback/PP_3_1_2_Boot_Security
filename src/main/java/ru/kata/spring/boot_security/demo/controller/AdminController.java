@@ -34,7 +34,7 @@ public class AdminController {
         if (user.isEmpty()) {
             throw new UserNotFoundException(String.format(MESSAGE_USER_NOT_FOUND, id));
         }
-        return user.get();
+        return userService.findById(id);
     }
 
     @PostMapping
