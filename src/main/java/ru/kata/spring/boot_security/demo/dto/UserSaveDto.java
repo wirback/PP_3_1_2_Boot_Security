@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Collection;
 
-public class UserCreationDto {
+public class UserSaveDto {
     @JsonProperty("FIRST_NAME")
     private final String firstName;
     @JsonProperty("LAST_NAME")
@@ -18,11 +18,11 @@ public class UserCreationDto {
     @JsonProperty("ROLES")
     private final Collection<RoleDto> roles;
 
-    public UserCreationDto() {
-        this(null, null, null, null, null, null);
-    }
+//    public UserSaveDto() {
+//        this(null, null, null, null, null, null);
+//    }
 
-    public UserCreationDto(String firstName, String lastName, Integer age, String username, String password, Collection<RoleDto> roles) {
+    public UserSaveDto(String firstName, String lastName, Integer age, String username, String password, Collection<RoleDto> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;

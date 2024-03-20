@@ -6,9 +6,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.exception_handling.UserNotFoundException;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,8 +18,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
+    private static final String MESSAGE_USER_NOT_FOUND = "There is no user with ID = %s int database";
     private final UserRepository userRepository;
-
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -26,14 +28,17 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Iterable<User> findAll() {
+    public Collection<User> findAll() {
         return userRepository.findAll();
     }
 
     @Override
     public User findById(Long id) {
-        Optional<User> foundUser = userRepository.findById(id);
-        return foundUser.orElse(null);
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(String.format(MESSAGE_USER_NOT_FOUND, id));
+        }
+        return user.orElse(null);
     }
 
     @Override

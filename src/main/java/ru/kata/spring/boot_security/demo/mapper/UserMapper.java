@@ -1,12 +1,13 @@
 package ru.kata.spring.boot_security.demo.mapper;
 
 import ru.kata.spring.boot_security.demo.dto.RoleDto;
-import ru.kata.spring.boot_security.demo.dto.UserCreationDto;
+import ru.kata.spring.boot_security.demo.dto.UserSaveDto;
 import ru.kata.spring.boot_security.demo.dto.UserResponseDto;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.stream.Collectors;
+
 
 public class UserMapper {
 
@@ -17,18 +18,22 @@ public class UserMapper {
                 entity.getLastName(),
                 entity.getAge(),
                 entity.getUsername(),
-                entity.getRoles().stream().map(UserMapper::toDto).collect(Collectors.toList())
+                entity.getRoles().stream()
+                        .map(UserMapper::toDto)
+                        .collect(Collectors.toList())
         );
     }
 
-    public static User toEntity(UserCreationDto dto) {
+    public static User toEntity(UserSaveDto dto) {
         return new User(
                 dto.getFirstName(),
                 dto.getLastName(),
                 dto.getAge(),
                 dto.getUsername(),
                 dto.getPassword(),
-                dto.getRoles().stream().map(UserMapper::toEntity).collect(Collectors.toList())
+                dto.getRoles().stream()
+                        .map(UserMapper::toEntity)
+                        .collect(Collectors.toList())
         );
     }
 

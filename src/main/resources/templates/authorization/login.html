@@ -11,28 +11,19 @@
 
 <div class="container">
     <form class="form-signin" method="post" th:action="@{/authorization/login}">
-<!--        <br>-->
+
         <h2 class="form-signin-heading">Please sign in</h2>
-<!--        <p style="display: table-row">-->
+
         <p>
-<!--            <label for="username" style="display: table-cell">Логин: </label>-->
             <label for="username" class="sr-only">Login</label>
             <input id="username" type="text" name="username" class="form-control" placeholder="Username" required
                    autofocus>
         </p>
-<!--        <br>-->
-<!--        <p style="display: table-row">-->
+
         <p>
-<!--            <label for="password" style="display: table-cell">Пароль: </label>-->
             <label for="password" class="sr-only">Password</label>
             <input id="password" type="password" name="password" class="form-control" placeholder="Password" required>
         </p>
-
-<!--        <br>-->
-
-<!--        <div th:if="${param.error}" style="color: red">-->
-<!--            Неверный логин или пароль-->
-<!--        </div>-->
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
