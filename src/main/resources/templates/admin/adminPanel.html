@@ -88,30 +88,7 @@
                                         <th scope="col">Delete</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-<!--                                    <tr th:each="user : ${users}">-->
-<!--                                        <td th:text="${user.id}">value</td>-->
-<!--                                        <td th:text="${user.firstName}">value</td>-->
-<!--                                        <td th:text="${user.lastName}">value</td>-->
-<!--                                        <td th:text="${user.age}">value</td>-->
-<!--                                        <td th:text="${user.username}">value</td>-->
-<!--                                        <td>-->
-<!--                                            <div class="d-inline" th:each="role : ${user.roles}">-->
-<!--                                                <p class="d-inline"-->
-<!--                                                   th:text="${#strings.replace(role.getName(), 'ROLE_', '')}"-->
-<!--                                                >value</p>-->
-<!--                                            </div>-->
-<!--                                        </td>-->
-<!--                                        <td><button type="button"-->
-<!--                                                    class="btn btn-info"-->
-<!--                                                    data-toggle="modal"-->
-<!--                                                    th:data-target="${'#edit-modal' + user.id}">Edit</button>-->
-<!--                                        </td>-->
-<!--                                        <td><button type="button"-->
-<!--                                                    class="btn btn-danger"-->
-<!--                                                    data-toggle="modal"-->
-<!--                                                    th:data-target="${'#delete-modal' + user.id}">Delete</button>-->
-<!--                                        </td>-->
+                                    <tbody id="id-all-users-table-tbody">
 
 <!--    &lt;!&ndash;                                    View modal edit&ndash;&gt;-->
 <!--                                        <div th:id="${'edit-modal' + user.id}"-->
@@ -249,7 +226,6 @@
 <!--                                                </form>-->
 <!--                                            </div>-->
 <!--                                        </div>-->
-<!--                                    </tr>-->
                                     </tbody>
                                 </table>
                             </div>
@@ -331,15 +307,8 @@
                                 <th scope="col">Role</th>
                             </tr>
                             </thead>
-                            <tbody id="id-table">
-                            <tr id="id-table-tr">
-<!--                                <td id="id-table-row-id">id</td>-->
-<!--                                <td id="id-table-row-first-name">first_name</td>-->
-<!--                                <td id="id-table-row-last-name">last_name</td>-->
-<!--                                <td id="id-table-row-age">age</td>-->
-<!--                                <td id="id-table-row-email">email</td>-->
-<!--                                <td id="id-table-row-roles">roles</td>-->
-                            </tr>
+                            <tbody>
+                            <tr id="id-user-table-tr"></tr>
                             </tbody>
                         </table>
                     </div>

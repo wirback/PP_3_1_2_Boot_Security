@@ -7,7 +7,6 @@ let usersTable = [];
 fetch("/api/admin/current_user")
     .then(dataJSON => dataJSON.json())
     .then(dataJSON => {
-        console.log(dataJSON); // TODO log
         currentUser = dataJSON;
 
         // заполнение верхней навигационной панели
@@ -15,22 +14,21 @@ fetch("/api/admin/current_user")
         document.getElementById("id-navbar-roles").innerText = rolesToString(currentUser);
 
         // заполнение данных о пользователе в таблице на вкладке "User"
-        showUser(currentUser);
+        document.getElementById("id-user-table-tr").innerHTML = showUser(currentUser);
     });
 
 // получаем список пользователей из бд
 fetch("api/admin/users")
     .then(dataJSON => dataJSON.json())
     .then(dataJSON => {
-        console.log(dataJSON); // TODO log
         if (dataJSON != null) {
             dataJSON.forEach(user => {
                 usersTable.push(user);
             });
         }
-        usersTable.forEach(user => {
-            console.log(user);
-        });
+
+        // заполнение таюлицы юзеров на вкладке "Admin"
+        document.getElementById("id-all-users-table-tbody").innerHTML = showAllUsers(usersTable);
     });
 
 // функция преобразования коллекции ролей в строковое представление
@@ -51,5 +49,15 @@ function showUser(user) {
             stringCodeHtml += td_HTML.concat(user[userKey]);
         }
     }
-    document.getElementById("id-table-tr").innerHTML = stringCodeHtml;
+    return stringCodeHtml;
+}
+
+// функция заполнения строк таблицы
+function showAllUsers(array) {
+    let stringCodeHtml = "";
+    const tr_HTML = "<tr>";
+    array.forEach(user => {
+        stringCodeHtml += tr_HTML.concat(showUser(user));
+    });
+    return stringCodeHtml;
 }
