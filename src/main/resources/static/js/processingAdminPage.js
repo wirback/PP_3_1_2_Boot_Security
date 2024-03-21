@@ -2,10 +2,6 @@
 
 let currentUser = null;
 let usersTable = [];
-// let requestParam = new Request("api/admin/users", {
-//     method: "GET",
-//     headers: {"Content-Type": "application/json"}
-// });
 
 // Получаем авторизованного пользователя
 fetch("/api/admin/current_user")
@@ -23,8 +19,7 @@ fetch("/api/admin/current_user")
     });
 
 // получаем список пользователей из бд
-// fetch(new Request("api/admin/users", {headers: {"Content-Type": "application/json"}}))
-fetch("api/admin/users", {headers: {"Content-Type": "application/json"}})
+fetch("api/admin/users")
     .then(dataJSON => dataJSON.json())
     .then(dataJSON => {
         console.log(dataJSON); // TODO log
