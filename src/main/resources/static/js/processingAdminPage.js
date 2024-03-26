@@ -76,10 +76,15 @@ function showUser(user) {
 // функция заполнения строк таблицы пользователей
 function showAllUsers(array) {
     const tbodyUsers = document.getElementById("id-all-users-table-tbody");
+    // tbodyUsers.innerText = ''
+    // tbodyUsers.innerHTML = ''
+    // $(tbodyUsers).empty();
+    $(".tbody-table").empty();
     const tbodyId = tbodyUsers.getAttribute("id");
     let count = 0;
     array.forEach(user => {
         const tr = document.createElement("tr");
+        tr.setAttribute("class", "row-table-users");
         let trId = tbodyId + ++count;
         tr.setAttribute("id", trId);
         tbodyUsers.append(tr);
@@ -128,7 +133,6 @@ function setRoles(ids) {
     return roles;
 }
 
-// async function addNewUser(form) {
 function addNewUser(form) {
     form.preventDefault();
     let newUserForm = new FormData(form.target);
@@ -138,13 +142,9 @@ function addNewUser(form) {
         age: newUserForm.get("age"),
         username: newUserForm.get('username'),
         password: newUserForm.get('password'),
-        // roles: newUserForm.getAll("roles")
         roles: setRoles(newUserForm.getAll('roles'))
     };
 
-    console.log(data); // TODO log
-
-    // let response = await fetch('/api/admin', {
     let response = fetch('/api/admin', {
         method: 'POST',
         headers: {
@@ -152,9 +152,15 @@ function addNewUser(form) {
             // 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
         },
         body: JSON.stringify(data)
-    }).then(() => getAllUsers());
+    });
+
+    if (response.ok) {
+
+    }
+    // .then()
+    //     .then(() => getAllUsers());
     form.target.reset();
 
-    // let result = await response.json();
-    // alert(result.message);
+    getAllUsers()
+    document.getElementById("users-table-button").click();
 }

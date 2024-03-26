@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,6 +16,7 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private Integer age;
+//    @UniqueElements
     @Column(name = "email")
     private String username;
     private String password;
