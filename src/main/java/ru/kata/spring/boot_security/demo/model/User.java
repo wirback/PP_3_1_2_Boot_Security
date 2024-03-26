@@ -39,6 +39,20 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles.toString() +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }

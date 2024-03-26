@@ -21,12 +21,23 @@ public class Role implements GrantedAuthority {
     )
     private Collection<User> users;
 
+
     public Role() {
     }
 
     public Role(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", users=" + users +
+                '}';
     }
 
     public Long getId() {
@@ -55,8 +66,4 @@ public class Role implements GrantedAuthority {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return name.replace("ROLE_", "");
-    }
 }

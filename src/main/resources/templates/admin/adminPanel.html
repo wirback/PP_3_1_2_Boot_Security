@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--    <meta name="csrf-token" content="{{ csrf_token()} }">-->
 
     <link rel="stylesheet" href="/css/style.css">
 
@@ -237,46 +238,51 @@
                          aria-labelledby="new-user-button"
                          class="tab-pane fade"
                          role="tabpanel"
+                         typeof="submit"
                     >
                         <div class="card">
                             <div class="card-header">
                                 <h4>Add new user</h4>
                             </div>
                             <div class="container col-sm-5 card-body">
-<!--                                <form th:action="@{/admin}" th:method="POST" th:object="${user}">-->
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="new-first-name" class="font-weight-bold">First Name</label>-->
-<!--                                        <input id="new-first-name" name="firstName" type="text" class="form-control form-control-sm" placeholder="first name">-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="new-last-name" class="font-weight-bold">Last Name</label>-->
-<!--                                        <input id="new-last-name" name="lastName" type="text" class="form-control form-control-sm" placeholder="last name">-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="new-age" class="font-weight-bold">Age</label>-->
-<!--                                        <input id="new-age" name="age" type="text" class="form-control form-control-sm" placeholder="age">-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="new-email" class="font-weight-bold">Email</label>-->
-<!--                                        <input id="new-email" name="username" type="text" class="form-control form-control-sm" placeholder="name@example.com">-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="new-password" class="font-weight-bold">Password</label>-->
-<!--                                        <input id="new-password" name="password" type="text" class="form-control form-control-sm" placeholder="password">-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="new-roles" class="font-weight-bold">Role</label>-->
-<!--                                        <select id="new-roles" name="roles" multiple class="form-control form-control-sm">-->
-<!--                                            <option th:each="role : ${roles}"-->
-<!--                                                    th:text="${#strings.replace(role.name,'ROLE_','')}"-->
-<!--                                                    th:value="${role.id}"-->
-<!--                                            >roles</option>-->
-<!--                                        </select>-->
-<!--                                    </div>-->
-<!--                                    <div>-->
-<!--                                        <button type="submit" class="btn btn-success">Add new user</button>-->
-<!--                                    </div>-->
-<!--                                </form>-->
+                                <form id="id-new-user-form">
+                                    <div class="form-group">
+                                        <label for="new-first-name" class="font-weight-bold">First Name</label>
+                                        <input id="new-first-name" name="firstName" type="text"
+                                               class="form-control form-control-sm" placeholder="first name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-last-name" class="font-weight-bold">Last Name</label>
+                                        <input id="new-last-name" name="lastName" type="text"
+                                               class="form-control form-control-sm" placeholder="last name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-age" class="font-weight-bold">Age</label>
+                                        <input id="new-age" name="age" type="text"
+                                               class="form-control form-control-sm" placeholder="age">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-email" class="font-weight-bold">Email</label>
+                                        <input id="new-email" name="username" type="text"
+                                               class="form-control form-control-sm" placeholder="name@example.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-password" class="font-weight-bold">Password</label>
+                                        <input id="new-password" name="password" type="text"
+                                               class="form-control form-control-sm" placeholder="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id-all-roles" class="font-weight-bold">Role</label>
+                                        <select id="id-all-roles" name="roles" multiple class="form-control form-control-sm">
+                                            <option></option>
+<!--                                            <option value="1">ADMIN</option>-->
+<!--                                            <option value="2">USER</option>-->
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <button id="id-add-user-button" type="submit" class="btn btn-success">Add new user</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
