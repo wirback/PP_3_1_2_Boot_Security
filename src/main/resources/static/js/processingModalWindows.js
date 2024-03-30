@@ -9,10 +9,6 @@ async function getUserById(id) {
     let response = await fetch("api/admin/" + id);
     return await response.json();
 }
-// function getUserById(id) {
-//     let response = fetch("api/admin/" + id);
-//     return response.json();
-// }
 
 async function showModalWindow(form, modal, id) {
     modal.show();
@@ -26,18 +22,6 @@ async function showModalWindow(form, modal, id) {
         form.roles.options[--user.roles[i].id].selected = true;
     }
 }
-// function showModalWindow(form, modal, id) {
-//     modal.show();
-//     let user = getUserById(id);
-//     form.id.value = user.id;
-//     form.first_name.value = user.firstName;
-//     form.last_name.value = user.lastName;
-//     form.age.value = user.age;
-//     form.email.value = user.username;
-//     for (let i = 0; i < user.roles.length; i++) {
-//         form.roles.options[--user.roles[i].id].selected = true;
-//     }
-// }
 
 // Edit
 async function editModal(id) {
@@ -60,7 +44,7 @@ function editUser() {
         }
 
         fetch("api/admin/", {
-            method: 'PATCH',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
