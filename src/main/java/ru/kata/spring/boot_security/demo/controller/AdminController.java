@@ -35,20 +35,16 @@ public class AdminController {
     }
 
 
-    @GetMapping("/current_user")
+    @GetMapping("/user")
     public UserResponseDto getCurrentUser(Principal principal) {
         return UserMapper.toDto(userService.findByUsername(principal.getName()));
     }
 
-//    @GetMapping
-//    public Iterable<User> getAllUsers() {
-//        return userService.findAll();
-//    }
     @GetMapping("/users")
-    public Collection<UserResponseDto> getAllUsers() {
-        return StreamSupport.stream(userService.findAll().spliterator(), false)
+    public ResponseEntity<Collection<UserResponseDto>> getAllUsers() {
+        return ResponseEntity.ok(StreamSupport.stream(userService.findAll().spliterator(), false)
                 .map(UserMapper::toDto)
-                .collect(Collectors.<UserResponseDto>toList());
+                .collect(Collectors.<UserResponseDto>toList()));
     }
 
     @GetMapping("/roles")
@@ -59,41 +55,32 @@ public class AdminController {
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-//        Optional<User> user = Optional.ofNullable(userService.findById(id));
-//        if (user.isEmpty()) {
-//            throw new UserNotFoundException(String.format(MESSAGE_USER_NOT_FOUND, id));
-//        }
-        return userService.findById(id);
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
+        return new ResponseEntity<>(UserMapper.toDto(userService.findById(id)), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> addNewUser(@RequestBody @Valid UserSaveDto userSaveDto) {
-        System.out.println("POST");
-        User user = UserMapper.toEntity(userSaveDto);
-        System.out.println(user);
+    public ResponseEntity<HttpStatus> addNewUser(@RequestBody UserSaveDto userSaveDto) {
         userService.save(UserMapper.toEntity(userSaveDto));
-        return ResponseEntity.ok(HttpStatus.CREATED);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping
-    public User updateUser(@RequestBody User user) {
-        System.out.println("PUT");
-        Optional<User> tmpUser = Optional.ofNullable(userService.findById(user.getId()));
-        if (tmpUser.isEmpty()) {
+    @PatchMapping
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody UserSaveDto userSaveDto) {
+        User user = UserMapper.toEntity(userSaveDto);
+        if (Optional.ofNullable(userService.findById(user.getId())).isEmpty()) {
             throw new  UserNotFoundException(String.format(MESSAGE_USER_NOT_FOUND, user.getId()));
         }
         userService.save(user);
-        return user;
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        Optional<User> user = Optional.ofNullable(userService.findById(id));
-        if (user.isEmpty()) {
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
+        if (Optional.ofNullable(userService.findById(id)).isEmpty()) {
             throw new UserNotFoundException(String.format(MESSAGE_USER_NOT_FOUND, id));
         }
         userService.deleteById(id);
-        return String.format("User with ID = %s was deleted.", id);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }

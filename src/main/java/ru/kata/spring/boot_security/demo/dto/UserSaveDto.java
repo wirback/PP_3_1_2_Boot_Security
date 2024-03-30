@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Collection;
 
 public class UserSaveDto {
+    @JsonProperty("ID")
+    private final Long id;
     @JsonProperty("FIRST_NAME")
     private final String firstName;
     @JsonProperty("LAST_NAME")
@@ -22,7 +24,10 @@ public class UserSaveDto {
 //        this(null, null, null, null, null, null);
 //    }
 
-    public UserSaveDto(String firstName, String lastName, Integer age, String username, String password, Collection<RoleDto> roles) {
+    public UserSaveDto(Long id , String firstName, String lastName,
+                       Integer age, String username, String password,
+                       Collection<RoleDto> roles) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -31,6 +36,10 @@ public class UserSaveDto {
         this.roles = roles;
     }
 
+
+    public Long getId() {
+        return id;
+    }
 
     public String getFirstName() {
         return firstName;

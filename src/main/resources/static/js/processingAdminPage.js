@@ -1,166 +1,136 @@
-"use strict"
+'use strict'
 
-let currentUser = null;
-let usersList = [];
-let rolesList = [];
+const PREFIX_ROLE = "ROLE_";
+const TBODY_ALL_USERS_TABLE = $('#id-all-users-table-tbody');
+let newUserForm = document.forms["id-new-user-form"];
 
-document.getElementById("id-new-user-form").addEventListener("submit", addNewUser);
 
-getCurrentUser(); // Получаем авторизованного пользователя
-getAllUsers(); // получаем список пользователей из бд
-getRoles(); // получаем список ролей из бд
+getCurrentUser();
+getAllUser();
+addNewUser();
+getRoles();
 
+
+// document.getElementById("new-user-button").onclick = () => {
+//     getRoles($('#id-new-roles').empty());
+// }
+
+
+function rolesToString(roles) {
+    return roles.map(
+        role => role.name.replace(PREFIX_ROLE, "")
+    ).join(" ");
+}
 
 // Функция подгрузки авторизованного пользователя
 function getCurrentUser() {
-    fetch("/api/admin/current_user")
-        .then(dataJSON => dataJSON.json())
-        .then(dataJSON => {
-            currentUser = dataJSON;
+    fetch("/api/admin/user")
+        .then(response => response.json())
+        .then(data => {
+            // currentUser = data;
 
             // заполнение верхней навигационной панели
-            document.getElementById("id-navbar-username").innerText = currentUser.username;
-            document.getElementById("id-navbar-roles").innerText = rolesToString(currentUser.roles);
+            document.getElementById("id-navbar-username").innerText = data.username;
+            document.getElementById("id-navbar-roles").innerText = rolesToString(data.roles);
 
             // заполнение данных о пользователе в таблице на вкладке "User"
-            showUser(currentUser);
+            const user = $(
+                `<tr>
+                    <td class="pt-3">${data.id}</td>
+                    <td class="pt-3">${data.firstName}</td>
+                    <td class="pt-3">${data.lastName}</td>
+                    <td class="pt-3">${data.age}</td>
+                    <td class="pt-3">${data.username}</td>
+                    <td class="pt-3">${rolesToString(data.roles)}</td>
+                </tr>`
+            );
+            $('#id-user-table-tbody').append(user);
         });
 }
 
-function getAllUsers() {
-    fetch("/api/admin/users")
-        .then(dataJSON => dataJSON.json())
-        .then(dataJSON => {
-            if (dataJSON != null) {
-                dataJSON.forEach(user => {
-                    usersList.push(user);
-                });
-            }
 
-            // заполнение таюлицы юзеров на вкладке "Admin"
-            showAllUsers(usersList);
+
+// Table
+function getAllUser() {
+    TBODY_ALL_USERS_TABLE.empty();
+    fetch("api/admin/users")
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(user => {
+                const users = $(
+                    `<tr>
+                        <td class="pt-3" id="userID">${user.id}</td>
+                        <td class="pt-3" >${user.firstName}</td>
+                        <td class="pt-3" >${user.lastName}</td>
+                        <td class="pt-3" >${user.age}</td>
+                        <td class="pt-3" >${user.username}</td>
+                        <td class="pt-3" >${rolesToString(user.roles)}</td>
+                        <td>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#id-edit-modal" onclick="editModal(${user.id})">
+                            Edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete" onclick="deleteModal(${user.id})">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>`
+                );
+                TBODY_ALL_USERS_TABLE.append(users);
+            });
+        })
+}
+
+// Create
+function addNewUser() {
+    newUserForm.addEventListener("submit", event => {
+        event.preventDefault();
+
+        let roles = [];
+        for (let i = 0; i < newUserForm.roles.options.length; i++) {
+            if (newUserForm.roles.options[i].selected) roles.push({
+                id: newUserForm.roles.options[i].value,
+                role: PREFIX_ROLE.concat(newUserForm.roles.options[i].text)
+            });
+        }
+
+        fetch("api/admin", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                firstName: newUserForm.first_name.value,
+                lastName: newUserForm.last_name.value,
+                age: newUserForm.age.value,
+                username: newUserForm.email.value,
+                password: newUserForm.password.value,
+                roles: roles
+            })
+        }).then(() => {
+            event.target.reset();
+            newUserForm.reset();
+            $('#users-table-button').click();
+            getAllUser();
         });
+    });
 }
 
 // функция подгрузки списка доступных ролей
 function getRoles() {
+    const rolesNew = $('#id-new-roles').empty();
+    const rolesEdit = $('#id-edit-roles').empty();
+    const rolesDelete = $('#id-delete-roles').empty();
     fetch("/api/admin/roles")
-        .then(dataJSON => dataJSON.json())
-        .then(dataJSON => {
-            if (dataJSON != null) {
-                dataJSON.forEach(role => {
-                    rolesList.push(role);
-                });
-            }
-
-            showRoles(rolesList);
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(role => {
+                rolesNew.append($(`<option value="${role.id}">${role.name.replace(PREFIX_ROLE, "")}</option>`));
+                rolesEdit.append($(`<option value="${role.id}">${role.name.replace(PREFIX_ROLE, "")}</option>`));
+                rolesDelete.append($(`<option value="${role.id}">${role.name.replace(PREFIX_ROLE, "")}</option>`));
+            });
         });
 }
 
-// функция заполнения данных о пользователе в таблице
-function showUser(user) {
-    const trUser = document.getElementById("id-user-table-tr");
-    let tdString = "";
-    for (const userKey in user) {
-        const td = document.createElement("td");
-        if (userKey === "roles") {
-            td.textContent = rolesToString(user[userKey]);
-        } else {
-            td.textContent = user[userKey];
-        }
-        trUser.append(td);
-    }
-    return tdString;
-}
 
-// функция заполнения строк таблицы пользователей
-function showAllUsers(array) {
-    const tbodyUsers = document.getElementById("id-all-users-table-tbody");
-    // tbodyUsers.innerText = ''
-    // tbodyUsers.innerHTML = ''
-    // $(tbodyUsers).empty();
-    $(".tbody-table").empty();
-    const tbodyId = tbodyUsers.getAttribute("id");
-    let count = 0;
-    array.forEach(user => {
-        const tr = document.createElement("tr");
-        tr.setAttribute("class", "row-table-users");
-        let trId = tbodyId + ++count;
-        tr.setAttribute("id", trId);
-        tbodyUsers.append(tr);
-
-        for (const userKey in user) {
-            const td = document.createElement("td");
-            td.setAttribute("id", "id-td-" + userKey);
-            if (userKey === "roles") {
-                td.append(rolesToString(user[userKey]));
-            } else {
-                td.append(user[userKey]);
-            }
-            tr.append(td);
-        }
-        tbodyUsers.append(tr);
-    });
-}
-
-
-
-function showRoles(array) {
-    array.forEach(role => {
-        const option = document.createElement("option");
-        option.setAttribute("value", role.id);
-        option.append(role.name.slice("ROLE_".length, role.name.length));
-        document.getElementById("id-all-roles").append(option);
-    });
-}
-
-function rolesToString(roles) {
-    return roles.map(
-        role => role.name.slice("ROLE_".length, role.name.length)
-    ).join(" ");
-}
-
-function setRoles(ids) {
-    let roles = [];
-    ids.forEach(id => {
-        for (const roleKey in rolesList) {
-            if (rolesList[roleKey].id === +id) {
-                roles.push(rolesList[roleKey]);
-            }
-        }
-    })
-
-    return roles;
-}
-
-function addNewUser(form) {
-    form.preventDefault();
-    let newUserForm = new FormData(form.target);
-    let data = {
-        firstName: newUserForm.get('firstName'),
-        lastName: newUserForm.get('lastName'),
-        age: newUserForm.get("age"),
-        username: newUserForm.get('username'),
-        password: newUserForm.get('password'),
-        roles: setRoles(newUserForm.getAll('roles'))
-    };
-
-    let response = fetch('/api/admin', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-            // 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-        },
-        body: JSON.stringify(data)
-    });
-
-    if (response.ok) {
-
-    }
-    // .then()
-    //     .then(() => getAllUsers());
-    form.target.reset();
-
-    getAllUsers()
-    document.getElementById("users-table-button").click();
-}

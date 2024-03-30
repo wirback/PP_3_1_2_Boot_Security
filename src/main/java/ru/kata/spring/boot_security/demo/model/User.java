@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.model;
 
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,7 +16,7 @@ public class User implements UserDetails {
     private String lastName;
     private Integer age;
 //    @UniqueElements
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String username;
     private String password;
     @ManyToMany(cascade = CascadeType.MERGE)
@@ -32,7 +31,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String firstName, String lastName, Integer age, String username, String password, Collection<Role> roles) {
+    public User(Long id , String firstName, String lastName,
+                Integer age, String username, String password,
+                Collection<Role> roles) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;

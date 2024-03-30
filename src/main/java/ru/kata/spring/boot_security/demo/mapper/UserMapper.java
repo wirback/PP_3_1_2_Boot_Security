@@ -26,6 +26,7 @@ public class UserMapper {
 
     public static User toEntity(UserSaveDto dto) {
         return new User(
+                dto.getId(),
                 dto.getFirstName(),
                 dto.getLastName(),
                 dto.getAge(),
