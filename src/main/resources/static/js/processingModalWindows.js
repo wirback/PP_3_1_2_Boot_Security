@@ -44,7 +44,7 @@ function editUser() {
         }
 
         fetch("api/admin/", {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },

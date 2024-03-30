@@ -65,7 +65,7 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<HttpStatus> updateUser(@RequestBody UserSaveDto userSaveDto) {
         User user = UserMapper.toEntity(userSaveDto);
         if (Optional.ofNullable(userService.findById(user.getId())).isEmpty()) {
